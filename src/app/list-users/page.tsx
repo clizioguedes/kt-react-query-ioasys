@@ -1,5 +1,5 @@
 import ListUsers from "@/app/list-users/list-users";
-import UserRegister from "@/components/userRegister/UserRegister";
+import UserRegister from "@/components/user-register/user-register";
 import Link from "next/link";
 
 export default function Users() {
