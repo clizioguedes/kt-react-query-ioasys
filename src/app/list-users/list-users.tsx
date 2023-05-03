@@ -2,25 +2,16 @@
 
 import { getUsers } from "@/services/users";
 import { User } from "@/types/User";
+import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 
 function ListUsers() {
-  const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<User[]>([]);
-
-  useEffect(() => {
-    getUsers()
-      .then((response) => {
-        setData(response);
-      })
-      .then((_data) => {
-        setError(false);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => getUsers(),
+    refetchOnWindowFocus: false,
+    retry: 0,
+  });
 
   if (isLoading)
     return (
@@ -41,7 +32,7 @@ function ListUsers() {
   return (
     <main>
       <ul>
-        {data.map((item) => {
+        {data?.map((item) => {
           return <li key={item.name}>{item.name}</li>;
         })}
       </ul>
